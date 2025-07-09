@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            微软积分商城签到
 // @namespace       https://github.com/geoi6sam1
-// @version         3.0.0
+// @version         3.0.1
 // @description     每天自动完成 Microsoft Rewards 任务获取积分奖励，✅必应搜索（Web）、✅每日活动（Web）、✅更多活动（Web）、✅文章阅读（App）、✅每日签到（App）
 // @author          geoi6sam1@qq.com
 // @icon            https://store-images.s-microsoft.com/image/apps.58212.783a7d74-cf5a-4dca-aed6-b5722f311eca.f8c0cb0b-6b57-4f06-99b1-5d7ee04e38e6.517a44fd-f164-40ae-996b-f959198325c2
@@ -321,7 +321,8 @@ obj.getRewardsInfo = function () {
                     const data = res.match(/(\"dashboard\"?)/)
                     if (data && data[0]) {
                         res = JSON.parse(res)
-                        GM_log(`当前积分🟢  ${res.dashboard.userStatus.availablePoints}`)
+                        // obj.data.availablePoints = res.dashboard.userStatus.availablePoints
+                        // GM_log(`当前积分🟢  ${res.dashboard.userStatus.availablePoints}`)
                         resolve(res.dashboard)
                     } else {
                         obj.task.sign.end++
@@ -412,6 +413,7 @@ obj.taskPromo = async function () {
                     obj.task.promo.end++
                     if (GM_getValue("task_promo", 0) != obj.data.time.dateNowNum) {
                         obj.pushMsg("活动推广🟢", "哇！哥哥好棒！活动推广完成了！")
+                        GM_log(`当前积分🟢  ${dashboard.userStatus.availablePoints}`)
                     }
                     GM_setValue("task_promo", obj.data.time.dateNowNum)
                     return true
@@ -651,12 +653,14 @@ obj.taskSearch = async function () {
                 if (obj.task.search.index > obj.task.search.limit.index) {
                     obj.task.search.end++
                     GM_log(`微软积分商城必应搜索🔵您已开启限制搜索，本次运行搜索 ${obj.task.search.index} 次结束！电脑搜索：${obj.task.search.pc.progress}/${obj.task.search.pc.max}　移动设备搜索：${obj.task.search.m.progress}/${obj.task.search.m.max}，请等待下个时间点继续完成！`)
+                    GM_log(`当前积分🟢  ${dashboard.userStatus.availablePoints}`)
                     return true
                 }
             } else {
                 if (obj.task.search.times > 2) {
                     obj.task.search.end++
                     GM_log(`微软积分商城必应搜索🔵您的积分收入限制！本次运行共搜索 ${obj.task.search.index} 次！电脑搜索：${obj.task.search.pc.progress}/${obj.task.search.pc.max}　移动设备搜索：${obj.task.search.m.progress}/${obj.task.search.m.max}，请等待下个时间点继续完成！`)
+                    GM_log(`当前积分🟢  ${dashboard.userStatus.availablePoints}`)
                     return true
                 }
                 if (dashboard.userStatus.counters.dailyPoint[0].pointProgress == obj.task.search.progressNow) {
@@ -670,6 +674,7 @@ obj.taskSearch = async function () {
                 obj.task.search.end++
                 if (GM_getValue("task_search", 0) != obj.data.time.dateNowNum) {
                     obj.pushMsg("必应搜索🟢", `哇！哥哥好棒！必应搜索完成了！`)
+                    GM_log(`当前积分🟢  ${dashboard.userStatus.availablePoints}`)
                 }
                 GM_setValue("task_search", obj.data.time.dateNowNum)
                 return true
