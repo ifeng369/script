@@ -48,6 +48,7 @@
         document.querySelector(".passport-login-container,.passport-login-tip-container,#toolBarBox")?.remove()
         document.querySelector('.signFlowModal')?.closest('body > *')?.remove();
         document.evaluate("//button[text()='立即登录/注册']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)?.singleNodeValue?.closest('body > *')?.remove();
+        document.evaluate("//button[text()='展开阅读全文']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)?.singleNodeValue?.click();
         // document.querySelector('button:contains(立即登录/注册)')?.closest('body > *')?.remove();
         document.querySelector('html').style=undefined;
     }, 10)
